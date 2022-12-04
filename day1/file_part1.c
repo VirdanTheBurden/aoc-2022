@@ -17,7 +17,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    buffer = malloc(bufsize * sizeof * buffer);
+    buffer = malloc(bufsize * sizeof *buffer); // *NOPAD*
 
     if (!buffer) {
         fclose(fptr);
