@@ -4,19 +4,14 @@
 #include <sys/stat.h>
 #include <ctype.h>
 
-struct Elf {
-	u_int32_t calories;
-};
-
 int main(void) {
 	const char *filename = "input.txt";
 	FILE       *fptr = fopen(filename, "r");
-	char       *inStr;
-	struct Elf *allCalories;
-	struct stat sb;
+	char       *buffer;
+	size_t      bufsize = 8;
+	ssize_t     lineSize;
 	u_int32_t   sum = 0;
 	u_int32_t   max = 0;
-	size_t      idx = 0;
 
 	if (!fptr) {
 		// GET THE FUCK OUT AAAAA
@@ -25,43 +20,29 @@ int main(void) {
 		return EXIT_FAILURE;
 	}
 
-	if (stat(filename, &sb) == -1) {
-		// we dun fucked up
-		puts("Information about this file could not be found.");
+	buffer = malloc(bufsize * sizeof *buffer);
+
+	if (!buffer) {
+		fclose(fptr);
+		puts("Memory allocation for buffer failed.");
 		return EXIT_FAILURE;
 	}
 
-	inStr = malloc(sb.st_size);
-	allCalories = malloc(sb.st_size * sizeof(struct Elf));
-
-	while(!feof(fptr)) {
-		// grabby strings >.<
-		fgets(inStr, sb.st_size, fptr);
-
-		if (isspace(inStr[0])) {
+	while((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
+		if (lineSize == 2) {
 			// the current sum is everything we need for one elf
-			struct Elf e;
-
-			e.calories = sum;
+			max = (sum > max) ? sum : max;
 			sum = 0;
-
-			max = (e.calories > max) ? e.calories : max;
-
-			// add to the elf array
-			allCalories[idx] = e;
-			idx++;
 		}
 
 		else {
 			// numbies yaaayyy
-			sum += atoi(inStr);
+			sum += atoi(buffer);
 		}
 
 	}
 
-	// I built this array for no reason now that I think about it...
-	free(allCalories); // well, be free my child!
-
-	printf("The maximum amount is %d", max);
+	printf("The maximum amount is %d\n", max);
+	free(buffer);
     return 0;
 }
