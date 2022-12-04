@@ -1,0 +1,27 @@
+# mode
+mode=c
+
+# brace stuff
+style=java
+keep-one-line-blocks
+break-closing-braces
+attach-closing-while
+
+# indentation
+indent=spaces
+indent-switches
+indent-cases
+
+# padding
+align-pointer=name
+align-reference=name
+break-blocks=all
+pad-oper
+pad-comma
+pad-header
+delete-empty-lines
+
+# formatting
+add-braces
+attach-return-type-decl
+convert-tabs
