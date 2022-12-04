@@ -37,8 +37,7 @@ int main(void) {
 
     while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
         if (lineSize == 2) {
-            // the current sum is everything we need for one elf
-            struct Elf *e = malloc(sizeof * e);
+            struct Elf *e = malloc(sizeof *e); // *NOPAD*
 
             if (!e) {
                 free(buffer);
