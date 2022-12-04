@@ -83,7 +83,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = (char *)malloc(bufsize * sizeof(char)))) {
+    if (!(buffer = malloc(bufsize * sizeof *buffer))) { // *NOPAD*
         puts("Allocation failed.");
         return EXIT_FAILURE;
     }
