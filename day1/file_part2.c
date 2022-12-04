@@ -1,91 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
-#include <ctype.h>
 
 struct Elf {
 	u_int32_t calories;
 };
 
 int main(void) {
-	const char *filename = "input.txt";
-	FILE       *fptr = fopen(filename, "r");
-	char       *inStr;
-	struct Elf *allCalories;
-	struct stat sb;
-	u_int32_t   sum = 0;
-	u_int32_t   max = 0;
-	size_t      idx = 0;
-	struct Elf  tmp;
+	const char  *filename = "input.txt";
+	FILE        *fptr = fopen(filename, "r");
+	char        *buffer;
+	struct Elf **allCalories;
+	size_t       bufsize = 8;
+	size_t       calorieSize = 400;
+	ssize_t      lineSize;
+	u_int32_t    sum = 0;
+	size_t       idx = 0;
+	struct Elf  *tmp;
+
 
 	if (!fptr) {
-		// GET THE FUCK OUT AAAAA
 		puts("There is no such file.");
+		return EXIT_FAILURE;
+	}
+
+	if (!(buffer = malloc(bufsize * sizeof *buffer))) {
 		fclose(fptr);
+		puts("Memory allocation failed.");
+		return EXIT_FAILURE;
+
+	}
+
+	if (!(allCalories = malloc(calorieSize * sizeof *allCalories))) {
+		free(buffer);
+		fclose(fptr);
+		puts("Memory allocation failed.");
 		return EXIT_FAILURE;
 	}
 
-	if (stat(filename, &sb) == -1) {
-		// we dun fucked up
-		puts("Information about this file could not be found.");
-		return EXIT_FAILURE;
-	}
-
-	inStr = malloc(sb.st_size);
-	allCalories = malloc(sb.st_size * sizeof(struct Elf));
-
-	while(!feof(fptr)) {
-		// grabby strings >.<
-		fgets(inStr, sb.st_size, fptr);
-
-		if (isspace(inStr[0])) {
+	while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
+		if (lineSize == 2) {
 			// the current sum is everything we need for one elf
-			struct Elf e;
+			struct Elf *e = malloc(sizeof *e);
 
-			e.calories = sum;
+			if (!e) {
+				free(buffer);
+				fclose(fptr);
+				puts("Memory allocation failed.");
+				return EXIT_FAILURE;
+			}
+
+			e->calories = sum;
 			sum = 0;
 
-			max = (e.calories > max) ? e.calories : max;
-
-			// add to the elf array
-			allCalories[idx] = e;
-			idx++;
+			allCalories[idx++] = e;
 		}
 
 		else {
 			// numbies yaaayyy
-			sum += atoi(inStr);
+			sum += atoi(buffer);
 		}
-
 	}
 
-	// Ah, *now* there's a reason for this array!
-	// iterates the array elements
-    for (int64_t i = 0; i < sb.st_size; i++) {
-        
-        // iterates the array elements from index 1
-        for (int64_t j = i + 1; j < sb.st_size; j++) {
-            
-            // comparing the array elements, to set array
-            // elements in descending order
-            if (allCalories[i].calories < allCalories[j].calories) {
-                tmp = allCalories[i];
-                allCalories[i] = allCalories[j];
-                allCalories[j] = tmp;
-            }
-        }
-    }
-
-	sum = 0;
-
-	printf("The top three elves have calorie totals of:\n");
-	for (size_t k = 0; k < 3; k++) {
-		printf("%d\n", allCalories[k].calories);
-		sum += allCalories[k].calories;
+	// sort ascending
+	for (size_t i = 0; i < idx; ++i){
+   		for (size_t j = i + 1; j < idx; ++j){
+      		if (allCalories[i]->calories < allCalories[j]->calories){
+         		tmp = allCalories[i];
+         		allCalories[i] = allCalories[j];
+         		allCalories[j] = tmp;
+      		}
+   		}
 	}
-	printf("Their sum is: %d", sum);
+
+	printf("The elves with the most calories have: %u, %u, and %u each.\n", allCalories[0]->calories, allCalories[1]->calories, allCalories[2]->calories);
+	printf("Their sum is: %u.\n", allCalories[0]->calories + allCalories[1]->calories + allCalories[2]->calories);
+
 	free(allCalories);
+	free(buffer);
+
+	fclose(fptr);
 
     return 0;
 }
