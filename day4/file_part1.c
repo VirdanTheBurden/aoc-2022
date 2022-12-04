@@ -56,7 +56,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = malloc(bufsize * sizeof * buffer))) {
+    if (!(buffer = malloc(bufsize * sizeof *buffer))) { // *NOPAD*
         fclose(fptr);
         puts("Memory allocation for string buffer failed.");
         return EXIT_FAILURE;
