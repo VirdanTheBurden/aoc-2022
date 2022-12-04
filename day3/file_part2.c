@@ -55,20 +55,20 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer1 = (char *)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer1 = malloc(bufsize * sizeof *buffer1))) { // *NOPAD*
         fclose(fptr);
         puts("Memory allocation failed.\n");
         return EXIT_FAILURE;
     }
 
-    if (!(buffer2 = (char *)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer2 = malloc(bufsize * sizeof *buffer2))) { // *NOPAD*
         free(buffer1);
         fclose(fptr);
         puts("Memory allocation failed.\n");
         return EXIT_FAILURE;
     }
 
-    if (!(buffer3 = (char *)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer3 = malloc(bufsize * sizeof *buffer3))) { // *NOPAD*
         free(buffer1);
         free(buffer2);
         fclose(fptr);

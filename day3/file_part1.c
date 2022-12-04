@@ -17,7 +17,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = (char *)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer = malloc(bufsize * sizeof *buffer))) { // *NOPAD*
         puts("Memory allocation failed.\n");
         return EXIT_FAILURE;
     }
