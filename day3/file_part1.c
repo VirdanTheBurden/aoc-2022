@@ -17,18 +17,20 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = (char*)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer = (char *)malloc(sizeof(char) * bufsize))) {
         puts("Memory allocation failed.\n");
         return EXIT_FAILURE;
     }
 
     while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
         strtok(buffer, "\n"); // because we hate newlines where I come from
-        
+
         // compare both halves
         for (size_t i = 0; i < (size_t)(lineSize - 1) / 2; i++) {
             for (size_t j = (lineSize - 1) / 2; j < (size_t)lineSize; j++) {
-                if (buffer[i] == buffer[j]) { similar = buffer[i]; }
+                if (buffer[i] == buffer[j]) {
+                    similar = buffer[i];
+                }
             }
         }
 
@@ -44,11 +46,8 @@ int main(void) {
         totalPriority += priority;
     }
 
-    
     printf("The total priority is: %d\n", totalPriority);
     free(buffer);
     fclose(fptr);
-
-
     return 0;
 }

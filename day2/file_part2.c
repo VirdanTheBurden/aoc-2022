@@ -9,8 +9,10 @@ char convert(char *toConvert) {
     switch (*toConvert) {
         case 'L':
             return 'X';
+
         case 'T':
             return 'Y';
+
         case 'W':
             return 'Z';
     }
@@ -25,27 +27,31 @@ u_int8_t calculateRound(char *opponent, char *action) {
     char     states[3] = {'T', 'W', 'L'};
 
     // calculate result of move
-    switch(*action) {
+    switch (*action) {
         case 'X':
             actionComparison = 0;
             break;
-        case 'Y': 
+
+        case 'Y':
             actionComparison = 3;
             break;
-        case 'Z': 
+
+        case 'Z':
             actionComparison = 6;
             break;
     }
 
     // get the proper offset
-    switch(*opponent) {
+    switch (*opponent) {
         case 'A':
             stateOffset = 0;
             break;
-        case 'B': 
+
+        case 'B':
             stateOffset = 2;
             break;
-        case 'C': 
+
+        case 'C':
             stateOffset = 1;
             break;
     }
@@ -77,18 +83,17 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = (char*)malloc(bufsize * sizeof(char)))) {
+    if (!(buffer = (char *)malloc(bufsize * sizeof(char)))) {
         puts("Allocation failed.");
         return EXIT_FAILURE;
     }
 
-    while((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
+    while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
         // buffer[0] is opponent, buffer[2] is you
         totalScore += (u_int32_t)calculateRound(&buffer[0], &buffer[2]);
     }
 
     printf("The total score is: %d\n", totalScore);
-
     free(buffer);
     fclose(fptr);
     return 0;

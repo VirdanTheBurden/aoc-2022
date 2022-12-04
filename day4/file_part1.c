@@ -8,7 +8,7 @@ struct Elf {
 };
 
 int *atoiarr(const char *str, size_t bufsize) {
-    int   *arr = malloc(4 * sizeof *arr);
+    int   *arr = malloc(4 * sizeof * arr);
     char   buf[3] = {'a', 'a', '\0'};
     size_t bufIdx = 0;
     size_t arrIdx = 0;
@@ -19,28 +19,27 @@ int *atoiarr(const char *str, size_t bufsize) {
     }
 
     size_t i = 0;
+
     while (i < bufsize) {
         if (bufIdx == 2) {
             // try convert to int1
-
             arr[arrIdx++] = atoi(buf);
             bufIdx = 0;
         }
 
         else {
-
             buf[bufIdx++] = str[i];
+
             if (str[i] == '-' || str[i] == ',') {
                 bufIdx = 2;
                 continue;
             }
-                    
         }
+
         i++;
     }
 
     return arr;
-
 }
 
 int main(void) {
@@ -57,7 +56,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = malloc(bufsize * sizeof *buffer))) {
+    if (!(buffer = malloc(bufsize * sizeof * buffer))) {
         fclose(fptr);
         puts("Memory allocation for string buffer failed.");
         return EXIT_FAILURE;
@@ -65,15 +64,12 @@ int main(void) {
 
     while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
         tmp = atoiarr(buffer, bufsize);
-
         struct Elf e1;
         struct Elf e2;
-
         e1.start = tmp[0];
         e1.end = tmp[1];
         e2.start = tmp[2];
         e2.end = tmp[3];
-
         int e1isContain = e1.start <= e2.start && e1.end >= e2.end;
         int e2isContain = e2.start <= e1.start && e2.end >= e1.end;
 
@@ -83,13 +79,9 @@ int main(void) {
         }
 
         free(tmp);
-
-        
     }
 
     printf("The total amount of overlaps are: %u\n", totalOverlaps);
-
     free(buffer);
     fclose(fptr);
-
 }

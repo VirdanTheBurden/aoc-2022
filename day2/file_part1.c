@@ -11,7 +11,6 @@ u_int8_t calculateRound(char *opponent, char *user) {
     u_int8_t actionComparison;
     size_t   stateOffset;
     char     states[3] = {'T', 'L', 'W'};
-
     // first, calculate action offset
     actionOffset = *user - 'W';
 
@@ -20,9 +19,11 @@ u_int8_t calculateRound(char *opponent, char *user) {
         case 'X':
             stateOffset = 0;
             break;
+
         case 'Y':
             stateOffset = 2;
             break;
+
         case 'Z':
             stateOffset = 1;
             break;
@@ -36,15 +37,16 @@ u_int8_t calculateRound(char *opponent, char *user) {
                 case 'T':
                     actionComparison = 3;
                     break;
+
                 case 'W':
                     actionComparison = 6;
                     break;
+
                 case 'L':
                     actionComparison = 0;
                     break;
             }
         }
-        
     }
 
     return actionComparison + actionOffset;
@@ -64,18 +66,17 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = (char*)malloc(bufsize * sizeof(char)))) {
+    if (!(buffer = (char *)malloc(bufsize * sizeof(char)))) {
         puts("Allocation failed.");
         return EXIT_FAILURE;
     }
 
-    while((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
+    while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
         // buffer[0] is opponent, buffer[2] is you
         totalScore += (u_int32_t)calculateRound(&buffer[0], &buffer[2]);
     }
 
     printf("The total score is: %d\n", totalScore);
-
     free(buffer);
     fclose(fptr);
     return 0;

@@ -4,7 +4,9 @@
 
 int contains(const char *str, int c, size_t len) {
     for (size_t i = 0; i < len; i++) {
-        if (str[i] == c) { return 1; }
+        if (str[i] == c) {
+            return 1;
+        }
     }
 
     return 0;
@@ -53,20 +55,20 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer1 = (char*)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer1 = (char *)malloc(sizeof(char) * bufsize))) {
         fclose(fptr);
         puts("Memory allocation failed.\n");
         return EXIT_FAILURE;
     }
 
-    if (!(buffer2 = (char*)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer2 = (char *)malloc(sizeof(char) * bufsize))) {
         free(buffer1);
         fclose(fptr);
         puts("Memory allocation failed.\n");
         return EXIT_FAILURE;
     }
 
-    if (!(buffer3 = (char*)malloc(sizeof(char) * bufsize))) {
+    if (!(buffer3 = (char *)malloc(sizeof(char) * bufsize))) {
         free(buffer1);
         free(buffer2);
         fclose(fptr);
@@ -75,7 +77,6 @@ int main(void) {
     }
 
     while (1) {
-
         lineSize = getline(&buffer1, &bufsize, fptr);
         lineSize = getline(&buffer2, &bufsize, fptr);
         lineSize = getline(&buffer3, &bufsize, fptr);
@@ -97,15 +98,12 @@ int main(void) {
         }
 
         totalPriority += (u_int32_t)priority;
-
-        
     }
-    
+
     printf("The total priority is: %d\n", totalPriority);
     free(buffer1);
     free(buffer2);
     free(buffer3);
     fclose(fptr);
-
     return 0;
 }
