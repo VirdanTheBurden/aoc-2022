@@ -8,7 +8,7 @@ struct Elf {
 };
 
 int *atoiarr(const char *str, size_t bufsize) {
-    int   *arr = malloc(4 * sizeof * arr);
+    int   *arr = malloc(4 * sizeof *arr); // *NOPAD*
     char   buf[3] = {'a', 'a', '\0'};
     size_t bufIdx = 0;
     size_t arrIdx = 0;
@@ -56,7 +56,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    if (!(buffer = malloc(bufsize * sizeof * buffer))) {
+    if (!(buffer = malloc(bufsize * sizeof *buffer))) { // *NOPAD*
         fclose(fptr);
         puts("Memory allocation for string buffer failed.");
         return EXIT_FAILURE;
@@ -64,6 +64,15 @@ int main(void) {
 
     while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
         tmp = atoiarr(buffer, bufsize);
+
+        if (!tmp) {
+            // well, shit
+            free(buffer);
+            fclose(fptr);
+            puts("Memory allocation failed.");
+            return EXIT_FAILURE;
+        }
+
         struct Elf e1;
         struct Elf e2;
         e1.start = tmp[0];
