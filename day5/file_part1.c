@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "../include/helpers.h"
 
 const size_t crateSize = 60;
 
@@ -9,84 +8,13 @@ struct CrateStack {
     char crates[60]; // = crateSize
 };
 
-// Convert a string to an array of integers of size return_size.
-// NOTE: The pointer returned is dynamically allocated. After use, call free() on the reference.
-// *New and improved!
-int *atoiarr(const char *str, size_t bufsize, size_t return_size) {
-    int   *arr = malloc(return_size * sizeof *arr); // *NOPAD*
-    char   buf[10] = "@@@@@@@@@@";
-    size_t bufIdx = 0;
-    size_t arrIdx = 0;
-    int    isZero = 0;
-    int    isFalsePositive;
-    int    tmp;
-
-    if (!arr) {
-        puts("Memory allocation for buffer failed.");
-        return NULL;
-    }
-
-    size_t i = 0;
-
-    while (i <= bufsize) {
-        if ('0' <= str[i] && str[i] <= '9') {
-            buf[bufIdx++] = str[i];
-        }
-
-        else {
-            isFalsePositive = 1;
-
-            // false positive check
-            for (size_t l = 0; l < 11; l++) {
-                if ('0' <= buf[l] && buf[l] <= '9') {
-                    isFalsePositive = 0;
-                }
-            }
-
-            if (!isFalsePositive) {
-                // check to make sure 0 isn't in buffer
-                for (size_t j = 0; j < bufIdx; j++) {
-                    if (buf[j] == '0') {
-                        // ok, then it's ACTUALLY 0
-                        isZero = 1;
-                    }
-                }
-
-                // now convert
-                tmp = atoi(buf);
-
-                if (!isZero && tmp == 0) {
-                    // freak the fuck out
-                    free(arr);
-                    return NULL;
-                }
-
-                // ok, we gucci mane
-                arr[arrIdx++] = tmp;
-                bufIdx = 0;
-
-                // let's clean out the buffer
-                for (size_t k = 0; k < 11; k++) {
-                    buf[k] = '@';
-                }
-
-                isZero = 0;
-            }
-        }
-
-        i++;
-    }
-
-    return arr;
-}
-
 // Moves crates around like a BOSS!
 void move(struct CrateStack ***crateArrayPtr, int amount, int from, int to) {
-    size_t             srcIdx = (*crateArrayPtr)[from]->start_idx;
-    size_t             destIdx = (*crateArrayPtr)[to]->start_idx;
-    size_t             srcHeight = (*crateArrayPtr)[from]->height;
-    size_t             destHeight = (*crateArrayPtr)[to]->height;
-    char               carry;
+    size_t srcIdx = (*crateArrayPtr)[from]->start_idx;
+    size_t destIdx = (*crateArrayPtr)[to]->start_idx;
+    size_t srcHeight = (*crateArrayPtr)[from]->height;
+    size_t destHeight = (*crateArrayPtr)[to]->height;
+    char   carry;
 
     for (size_t toMove = amount; toMove > 0; toMove--) {
         // pop the carry
@@ -202,7 +130,7 @@ int main(void) {
         }
     }
 
-    // for the print, the further left, the closer to the top
+    puts("the further left, the closer to the top of the stack");
     for (size_t i = 0; i < 9; i++) {
         printf("crate stack %lu:", i + 1);
 

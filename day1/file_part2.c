@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "../include/helpers.h"
 
 struct Elf {
     u_int32_t calories;

@@ -2,8 +2,7 @@
 // A, B, C = Rock, Paper, Scissors
 // X, Y, Z = Lose, Draw, Win
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../include/helpers.h"
 
 char convert(char *toConvert) {
     switch (*toConvert) {

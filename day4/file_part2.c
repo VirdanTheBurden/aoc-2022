@@ -1,46 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../include/helpers.h"
 
 struct Elf {
     int start;
     int end;
 };
-
-int *atoiarr(const char *str, size_t bufsize) {
-    int   *arr = malloc(4 * sizeof *arr); // *NOPAD*
-    char   buf[3] = {'a', 'a', '\0'};
-    size_t bufIdx = 0;
-    size_t arrIdx = 0;
-
-    if (!arr) {
-        puts("Memory allocation for buffer failed.");
-        return NULL;
-    }
-
-    size_t i = 0;
-
-    while (i < bufsize) {
-        if (bufIdx == 2) {
-            // try convert to int1
-            arr[arrIdx++] = atoi(buf);
-            bufIdx = 0;
-        }
-
-        else {
-            buf[bufIdx++] = str[i];
-
-            if (str[i] == '-' || str[i] == ',') {
-                bufIdx = 2;
-                continue;
-            }
-        }
-
-        i++;
-    }
-
-    return arr;
-}
 
 int main(void) {
     const char *filename = "input.txt";
@@ -63,7 +26,7 @@ int main(void) {
     }
 
     while ((lineSize = getline(&buffer, &bufsize, fptr)) >= 0) {
-        tmp = atoiarr(buffer, bufsize);
+        tmp = atoiarr(buffer, bufsize, 4);
 
         if (!tmp) {
             // well, shit

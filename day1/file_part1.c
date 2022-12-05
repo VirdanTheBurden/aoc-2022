@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "../include/helpers.h"
 
 int main(void) {
     const char *filename = "input.txt";

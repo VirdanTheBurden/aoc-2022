@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../include/helpers.h"
 
 int contains(const char *str, int c, size_t len) {
     for (size_t i = 0; i < len; i++) {

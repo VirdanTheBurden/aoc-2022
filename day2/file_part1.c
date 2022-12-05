@@ -3,8 +3,7 @@
 // B, Y is Paper
 // C, Z is Scissors
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../include/helpers.h"
 
 u_int8_t calculateRound(char *opponent, char *user) {
     u_int8_t actionOffset;
