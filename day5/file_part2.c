@@ -21,8 +21,6 @@ void move(struct CrateStack ***crateArrayPtr, int amount, int from, int to) {
         carries[(crateSize - 1) - i] = (*crateArrayPtr)[from]->crates[i];
     }
 
-    printf("In carries: %s\n", carries);
-
     // shift back the dest by amount
     for (size_t i = 0; i < (size_t)amount; i++) {
         for (size_t j = destIdx; j < destIdx + destHeight; j++) {
@@ -35,7 +33,6 @@ void move(struct CrateStack ***crateArrayPtr, int amount, int from, int to) {
 
     // push the carries
     for (size_t i = amount; i > 0; i--) {
-        printf("idx: %lu -> %lu\n", i - 1, destHeight + destIdx - i + 1);
         (*crateArrayPtr)[to]->crates[(destHeight + destIdx - i + 1)] = carries[i - 1];
     }
 
@@ -127,16 +124,6 @@ int main(void) {
         }
 
         else {
-            for (size_t i = 0; i < 9; i++) {
-                printf("crate stack %lu:", i + 1);
-
-                for (size_t j = crateArray[i]->height + crateArray[i]->start_idx; j > crateArray[i]->start_idx; j--) {
-                    printf(" [%c] ", crateArray[i]->crates[j]);
-                }
-
-                puts("");
-            }
-
             // Now let's get moving!
             tmp = atoiarr(buffer, (size_t)lineSize, 3);
 
@@ -152,6 +139,7 @@ int main(void) {
 
     // for the print, the further left, the closer to the top
     puts("the further left, the closer to the top of the stack");
+
     for (size_t i = 0; i < 9; i++) {
         printf("crate stack %lu:", i + 1);
 
