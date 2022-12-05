@@ -150,7 +150,7 @@ int main(void) {
 
     // create crate stacks
     for (size_t i = 0; i < 9; i++) {
-        struct CrateStack *cptr = malloc(sizeof * cptr);
+        struct CrateStack *cptr = malloc(sizeof *cptr); // *NOPAD*
 
         if (!cptr) {
             free(buffer);
