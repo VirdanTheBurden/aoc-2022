@@ -58,4 +58,5 @@ int main(void) {
     printf("Start of packet found at position: %u\n", idx);
     free(buffer);
     fclose(fptr);
+    return 0;
 }
