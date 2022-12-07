@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // *New and improved!
 // Returns a pointer to an array of size return_size that contains UPTO return_size unsigned integers from a string.
