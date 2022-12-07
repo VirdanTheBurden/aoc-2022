@@ -8,7 +8,7 @@
 // Returns a pointer to an array of size return_size that contains UPTO return_size unsigned integers from a string.
 // If there are less integers found in the string than return_size, 0 will replace remaining indices.
 // NOTE: Returns NULL if any integer fails to convert. Pointer must be manually freed with free().
-int *atoiarr(const char *str, size_t bufsize, size_t return_size) {
+int *atouarr(const char *str, size_t bufsize, size_t return_size) {
     int   *arr = (int *)calloc(return_size, sizeof *arr); // *NOPAD*
     char   buf[11] = "@@@@@@@@@@";
     size_t bufIdx = 0;

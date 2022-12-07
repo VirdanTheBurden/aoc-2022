@@ -125,7 +125,7 @@ int main(void) {
 
         else {
             // Now let's get moving!
-            tmp = atoiarr(buffer, (size_t)lineSize, 3);
+            tmp = atouarr(buffer, (size_t)lineSize, 3);
 
             if (tmp == NULL) {
                 // well shit
